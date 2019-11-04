@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import kokhanevych.spring.demo.dto.BookDto;
-import kokhanevych.spring.demo.dto.BookDtoUtil;
 import kokhanevych.spring.demo.entity.Book;
 import kokhanevych.spring.demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +32,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book update(Long id, BookDto bookDto) {
+    public Book update(Long id, Book updateBook) {
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Book with id " + id + " not found"));
-        Book updateBook = BookDtoUtil.convertToBook(bookDto);
         updateBook.setId(book.getId());
         bookRepository.deleteById(id);
         return bookRepository.saveAndFlush(updateBook);
